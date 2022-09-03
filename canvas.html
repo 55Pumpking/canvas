@@ -9,6 +9,9 @@
         .canvas4{
             border: 1px solid grey;
         }
+        .canvas5{
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -16,7 +19,7 @@
     <canvas width="500" height="500" class="canvas2"></canvas>
     <canvas width="500" height="500" class="canvas3"></canvas>
     <canvas width="500" height="500" class="canvas4"></canvas>
-    <canvas width="500" height="500" class="canvas5"></canvas>
+    <canvas width="500" height="500"  class="canvas5"></canvas>
 
     <script>
         const canvas1 = document.querySelector('.canvas1')
@@ -31,6 +34,8 @@
         const mc4 = canvas4.getContext('2d')
         const mc5 = canvas5.getContext('2d')
         
+
+        //网格
         for(let i=1;i<canvas1.height/50;i++){
             mc.moveTo(i*50,0)
             mc.lineTo(i*50,canvas1.height)
@@ -42,6 +47,8 @@
             mc.stroke()
         }
 
+
+        //棋盘格
         for(let i=0;i<10;i++){
             for(let j=0;j<10;j++){
                 if(j%2===0){
@@ -65,10 +72,11 @@
             }
         } 
 
+
+        //跟踪轨迹
         let angle = 0
         let R = 100
         function drawC(){
-            
             mc3.clearRect(0,0,500,500)
             mc3.strokeStyle = 'red'
 
@@ -82,8 +90,10 @@
             
             window.requestAnimationFrame(drawC)
         }
-        // drawC()
+        drawC()
 
+
+        //倒计时
         let angle4 = 0
         function drawC2(){
             mc4.clearRect(0,0,500,500)
@@ -110,34 +120,36 @@
 
             window.requestAnimationFrame(drawC2)
         }
-        // drawC2()
+        drawC2()
 
 
         // 放大镜
         const img = new Image()
-        img.src = './messi.jpg'
+        img.src = './messi.png'
         img.onload = function(){
-            mc5.drawImage(img,0,0,500,500)
+            mc5.drawImage(img,0,0)
         }
-        
         let flag = false
-
         canvas5.addEventListener('mousedown',function(e){
-            const x = e.clientX - canvas5.offsetLeft
-            const y = e.clientY - canvas5.offsetTop
-            flag = true
+            const x = e.pageX - canvas5.offsetLeft
+            const y = e.pageY - canvas5.offsetTop
             console.log(x,y)
+            flag = true
+            mc5.drawImage(img,x-20,y-20,40,40,x-40,y-40,80,80)
         })
         canvas5.addEventListener('mousemove',function(e){
             if(flag){
-                const x = e.clientX - canvas5.offsetLeft
-                const y = e.clientY - canvas5.offsetTop
-                console.log(x,y)
+                const x = e.pageX - canvas5.offsetLeft
+                const y = e.pageY - canvas5.offsetTop
+                mc5.clearRect(0,0,500,500)
+                mc5.drawImage(img,0,0)
+                mc5.drawImage(img,x-20,y-20,40,40,x-40,y-40,80,80)
             }
-            
         })
         canvas5.addEventListener('mouseup',function(e){
             flag = false
+            mc5.clearRect(0,0,500,500)
+            mc5.drawImage(img,0,0)
         })
     </script>
 
