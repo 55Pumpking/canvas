@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 画板 -->
+    <canvas class="canv1"></canvas>
+    <script>
+        const body = document.querySelector('body')
+
+        const canv1 = document.querySelector('.canv1')
+        const c1 = canv1.getContext('2d')
+        canv1.height = body.clientHeight
+        canv1.width = body.clientWidth
+
+        let startP = null , endP = null, flag = false
+        let draw = ()=>{
+            c1.moveTo(startP.x,startP.y)
+            c1.lineTo(endP.x,endP.y)
+            c1.stroke()
+        }
+        canv1.addEventListener('mousedown',(e)=>{
+            flag = true
+            startP = {
+                x:e.clientX,
+                y:e.clientY
+            }
+            endP = {
+                x:e.clientX,
+                y:e.clientY
+            }
+            console.log(startP,endP)
+            draw()  
+        })
+        canv1.addEventListener('mousemove',(e)=>{
+            if(flag){
+                
+                endP = {
+                    x:e.clientX,
+                    y:e.clientY
+                }
+                draw()
+                startP = endP
+            }
+        })
+        canv1.addEventListener('mouseup',(e)=>{
+            flag = false
+        })
+    </script>
+</body>
+</html>
