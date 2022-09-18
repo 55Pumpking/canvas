@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas width="500" height="500" class="text"></canvas>
+    <script>
+        const text = document.querySelector('.text')
+        const txt = text.getContext('2d')
+
+        txt.moveTo(250,0)
+        txt.lineTo(250,500)
+        txt.stroke()
+        txt.moveTo(0,250)
+        txt.lineTo(500,250)
+        txt.stroke()
+
+        txt.setLineDash([20,5])
+        txt.moveTo(0,0)
+        txt.lineTo(500,500)
+        txt.stroke()
+        txt.setLineDash([20,5])
+        txt.moveTo(0,500)
+        txt.lineTo(500,0)
+        txt.stroke()
+
+        
+        txt.font = "400px 楷体"
+        txt.textAlign = "center"
+        txt.textBaseline = "middle"
+
+        txt.fillText('贾', 250, 250)
+    </script>
+</body>
+</html>
