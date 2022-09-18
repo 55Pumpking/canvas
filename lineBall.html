@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html, body{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <canvas  class="lineBall"></canvas>
+    <script>
+        const lb = document.querySelector('.lineBall')
+        const lbc = lb.getContext('2d')
+        lb.height = window.innerHeight
+        lb.width = window.innerWidth
+        
+        
+        function ball(){
+            this.x = Math.random()*400+50
+            this.y = Math.random()*400+50
+            this.color = '#' + parseInt(Math.random()*0xffffff).toString(16)
+            this.r = Math.random()*10+10
+            this.xSpeed = Math.random()*5+1
+            this.ySpeed = Math.random()*5+1
+        }
+        ball.prototype.draw= function(){
+            lbc.beginPath()
+            lbc.fillStyle = this.color
+            lbc.arc(this.x, this.y, this.r, 0, Math.PI*2)
+            lbc.fill()
+            this.run()
+        }
+        ball.prototype.run = function(){
+            if(this.x + this.r >= window.innerWidth || this.x - this.r <=0){
+                this.xSpeed = -this.xSpeed
+            }
+            if(this.y + this.r >= window.innerHeight || this.y - this.r <=0){
+                this.ySpeed = -this.ySpeed
+            }
+            this.x += this.xSpeed
+            this.y += this.ySpeed
+        }
+
+        function drawLine(x1, y1, x2, y2, color){
+            lbc.beginPath()
+            lbc.moveTo(x1, y1)
+            lbc.lineTo(x2, y2)
+            lbc.strokeStyle = color
+            lbc.stroke()
+        }
+        let ballArr = []
+        for(let i = 0; i < 10; i++){
+            let j = new ball()
+            ballArr.push(j)
+        }
+        setInterval(()=>{
+            lbc.clearRect(0, 0, window.innerWidth, window.innerHeight)
+            for(let i = 0; i<10; i++){
+                let ball = ballArr[i]
+                ball.draw()
+                for(let j = 0; j < i; j++){
+                    drawLine(ballArr[j].x, ballArr[j].y, ballArr[i].x, ballArr[i].y, ballArr[i].color)
+                }
+            }
+        },10)
+    </script>
+</body>
+</html>
